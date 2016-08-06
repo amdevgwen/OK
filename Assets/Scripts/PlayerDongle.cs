@@ -26,4 +26,25 @@ public class PlayerDongle : MonoBehaviour {
         transform.localPosition = localPosition;
     }
 
+    /* Start of summoning minions
+    public void CallMinions()
+    {
+        GameObject [] minionGroup = GameObject.FindGameObjectsWithTag("Minion");
+        
+        foreach ( GameObject minion in minionGroup )
+        {
+            if ( Vector2.Distance(this.transform.position, minion.transform.position) <= LocalRadius )
+            {
+
+            }
+        }
+
+        this.transform.position;
+
+        this.Transform.position;
+
+
+    }
+    */
+
 }
