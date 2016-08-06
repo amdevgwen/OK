@@ -31,8 +31,11 @@ public class GameMain : MonoBehaviour {
     public void TryAddMinion(Transform Minion)
     {
         if(CurrentMinions.Count < DebugMaxMinions){
-            CurrentMinions.Add(Minion.GetComponent<MinionController>());
-            Minion.GetComponent<MinionController>().StartFollowPlayer();
+            if (!CurrentMinions.Contains(Minion.GetComponent<MinionController>()))
+            {
+                CurrentMinions.Add(Minion.GetComponent<MinionController>());
+                Minion.GetComponent<MinionController>().StartFollowPlayer();
+            }
         }else{
             
         }        
@@ -42,6 +45,7 @@ public class GameMain : MonoBehaviour {
     {
         if (CurrentMinions.Contains(Minion.GetComponent<MinionController>()))
         {
+            CurrentMinions.Remove(Minion.GetComponent<MinionController>());
             Minion.GetComponent<MinionController>().StopFollowingPlayer();
         }
         else

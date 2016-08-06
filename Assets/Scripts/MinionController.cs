@@ -18,14 +18,17 @@ public class MinionController : MonoBehaviour {
 
     NavMeshAgent _agent;
 
-
+    public float snapdistance;
 
     void Start()
     {
         _agent = transform.GetComponent<NavMeshAgent>();
         transform.tag = "Minion";
     }
-
+    void Update()
+    {
+        MinionUpdate();
+    }
     public void MinionUpdate()
     {
         _agent.enabled = (MinionState.Working != currentState);
@@ -37,18 +40,25 @@ public class MinionController : MonoBehaviour {
                 _agent.stoppingDistance = stoppingdist;
                 break;
             case MinionState.Wait:
-
+                
                 _agent.SetDestination(transform.position);
                 break;
             case MinionState.GoingToWork:
-                
                 _agent.stoppingDistance = 0;
+                
+                if(Vector3.Distance(_agent.destination, transform.position) <= snapdistance){
+                    _agent.enabled = false;
+                    currentState = MinionState.Working;
+                    CurrentTarget.GetComponent<WorkObjectBase>().JoinWorkForce(transform);
+                }
                 break;
+                
         }
     }
 
     public void SendToWork(Transform targetPos, Transform TargetObj)
     {
+        GameMain.instance.RemoveMinion(transform);
         currentState = MinionState.GoingToWork;
         CurrentTarget = TargetObj;
         _agent.SetDestination(targetPos.position);

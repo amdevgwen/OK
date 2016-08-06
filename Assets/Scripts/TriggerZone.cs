@@ -25,6 +25,12 @@ public class TriggerZone : MonoBehaviour {
                     other.GetComponent<MinionController>().TryFollowPlayer();
                 }
                 break;
+            case TriggerType.Object:
+                if (other.gameObject.tag == "Minion")
+                {
+                    transform.parent.GetComponent<WorkObjectBase>().CollideWith(other.transform);
+                }
+                break;
 
         }
     }
