@@ -23,6 +23,32 @@ public class CameraFollow : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetAxisRaw("CHS") != 0)
+        {
+            PlayerController.instance.rotationsjunk = rotator.rotation;
+            rotator.Rotate(Vector3.up * Input.GetAxisRaw("CHS") * (rotateSpeed * Time.deltaTime));
+
+        }
+
+        /*
+        if (Input.GetButton("CameraLeft") != Input.GetButton("CameraRight"))
+        {
+            int posneg = 1;
+            if (Input.GetButton("CameraLeft"))
+            {
+                posneg = -1;
+            }
+            PlayerController.instance.rotationsjunk = rotator.rotation;
+             rotator.Rotate(Vector3.up * posneg * (rotateSpeed * Time.deltaTime));
+
+        }
+        else
+        {
+            
+
+        }
+         */
+
         if (!moving && Vector3.Distance(PlayerMovement.PlayerInstance.transform.position, transform.position) > start)
         {
             moving = true;

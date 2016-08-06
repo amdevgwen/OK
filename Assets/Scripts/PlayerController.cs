@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-
+    public Quaternion rotationsjunk;
     void GetInputs()
     {
         interactDown = Input.GetButton("Interact");
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour {
         callTrigger = Input.GetButtonDown("Call");
 
         leftInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        
     }
 
     void CheckAbility()
@@ -60,13 +61,21 @@ public class PlayerController : MonoBehaviour {
     }
     void DongleStuff()
     {
+        Vector3 junk = new Vector3(leftInput.x, 0, leftInput.y);
+        junk = Quaternion.Euler(0, rotationsjunk.eulerAngles.y, 0) * junk;
+        Vector2 movements = new Vector2(junk.x, junk.z);
+        
+
         Transform temp = PlayerMovement.PlayerInstance.transform.FindChild("Dongle");
-        temp.GetComponent<PlayerDongle>().MoveDongle(leftInput * DongleSpeed);
+        temp.GetComponent<PlayerDongle>().MoveDongle(movements * DongleSpeed);
     }
 
     void MovementStuff()
     {
-        Vector2 movements = new Vector2(leftInput.x, leftInput.y);
+        Vector3 junk = new Vector3(leftInput.x, 0, leftInput.y);
+        junk = Quaternion.Euler(0, rotationsjunk.eulerAngles.y, 0) * junk;
+
+        Vector2 movements = new Vector2(junk.x, junk.z);
         
         
         
