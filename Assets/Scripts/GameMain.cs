@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class GameMain : MonoBehaviour {
     public List<MinionController> CurrentMinions;
     public int DebugMaxMinions;
+    public List<MinionController> AllMinions;
 
     public static GameMain instance{
      get{return _instance;}   
@@ -17,7 +18,15 @@ public class GameMain : MonoBehaviour {
         _instance = this;
     }
 
+    void Update()
+    {
+        PlayerController.instance.ControllerUpdate();
+        for (int i = 0; i < AllMinions.Count; i++)
+        {
+            AllMinions[i].MinionUpdate();
+        }
 
+    }
 
     public void TryAddMinion(Transform Minion)
     {

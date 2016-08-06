@@ -26,7 +26,7 @@ public class MinionController : MonoBehaviour {
         transform.tag = "Minion";
     }
 
-    public void Update()
+    public void MinionUpdate()
     {
         _agent.enabled = (MinionState.Working != currentState);
         switch (currentState)

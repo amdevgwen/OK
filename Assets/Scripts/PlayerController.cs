@@ -8,23 +8,32 @@ public class PlayerController : MonoBehaviour {
 
     public bool isCalling;
 
+    public static PlayerController instance{
+     get{return _instance;}   
+    }
+    private static PlayerController _instance;
+
+    void Awake()
+    {
+        _instance = this;
+    }
 
     Vector2 leftInput;
     Vector2 rightInput;
 
 
     //checks if button is down
-    bool button1Down;
-    bool button2Down;
-    bool button3Down;
+    bool interactDown;
+    bool callDown;
+    bool dismissDown;
 
 
     //calls on first frame
-    bool button1Trigger;
-    bool button2Trigger;
-    bool button3Trigger;
+    bool interactTrigger;
+    bool callTrigger;
+    bool dismissTrigger;
 
-    void Update()
+    public void ControllerUpdate()
     {
         GetInputs();
         DongleStuff();
@@ -35,8 +44,13 @@ public class PlayerController : MonoBehaviour {
 
     void GetInputs()
     {
+        interactDown = Input.GetButton("Interact");
+        callDown = Input.GetButton("Call");
+
+        interactTrigger = Input.GetButtonDown("Interact");
+        callTrigger = Input.GetButtonDown("Call");
+
         leftInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-       
     }
 
     void CheckAbility()
@@ -52,16 +66,13 @@ public class PlayerController : MonoBehaviour {
 
     void MovementStuff()
     {
-        Vector2 movements = new Vector2();
-        //if (leftInput.x >= MovementDeadzone)
-       // {
-            movements.x = leftInput.x;
-       // }
-       // if (leftInput.y >= MovementDeadzone)
-       // {
-            movements.y = leftInput.y;
-        //}
-        if (PlayerMovement.PlayerInstance.playerCanMove)
+        Vector2 movements = new Vector2(leftInput.x, leftInput.y);
+        
+        
+        
+
+        
+        if (PlayerMovement.PlayerInstance.playerCanMove && ((Mathf.Abs(movements.x) >= MovementDeadzone)||(Mathf.Abs(movements.y) >= MovementDeadzone) ))
         {
             PlayerMovement.PlayerInstance.MoveCharacter(movements * PlayerSpeed);
         }
