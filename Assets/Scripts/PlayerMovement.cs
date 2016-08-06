@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour {
     CharacterController control;
 
     public bool playerCanMove = true;
-
+    public float gravity = 4;
 
     public static PlayerMovement PlayerInstance
     {
@@ -26,7 +26,12 @@ public class PlayerMovement : MonoBehaviour {
 
     public void MoveCharacter(Vector2 dir)
     {
-        Vector3 dirk = new Vector3(dir.x, 0, dir.y);
+        float g = 0;
+        if (!control.isGrounded)
+        {
+            g = gravity * Time.deltaTime;
+        }
+        Vector3 dirk = new Vector3(dir.x, gravity, dir.y);
         control.Move(dirk * Time.deltaTime);
 
     }
