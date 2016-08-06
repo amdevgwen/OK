@@ -23,6 +23,7 @@ public class MinionController : MonoBehaviour {
     void Start()
     {
         _agent = transform.GetComponent<NavMeshAgent>();
+        GameMain.instance.AllMinions.Add(this);
         transform.tag = "Minion";
     }
     void Update()

@@ -23,15 +23,12 @@ public class PlayerController : MonoBehaviour {
 
 
     //checks if button is down
-    bool interactDown;
-    bool callDown;
-    bool dismissDown;
+    [SerializeField] bool interactDown, callDown, dismissDown;
 
 
     //calls on first frame
-    bool interactTrigger;
-    bool callTrigger;
-    bool dismissTrigger;
+    [SerializeField]
+    bool interactTrigger, callTrigger, dismissTrigger;
 
     public void ControllerUpdate()
     {
@@ -64,9 +61,15 @@ public class PlayerController : MonoBehaviour {
         Vector3 junk = new Vector3(leftInput.x, 0, leftInput.y);
         junk = Quaternion.Euler(0, rotationsjunk.eulerAngles.y, 0) * junk;
         Vector2 movements = new Vector2(junk.x, junk.z);
+
         
 
         Transform temp = PlayerMovement.PlayerInstance.transform.FindChild("Dongle");
+        if (callDown)
+        {
+            temp.GetComponent<PlayerDongle>().DoWhistle();
+            
+        }
         temp.GetComponent<PlayerDongle>().MoveDongle(movements * DongleSpeed);
     }
 
