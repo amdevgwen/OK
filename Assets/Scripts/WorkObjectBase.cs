@@ -52,14 +52,15 @@ public class WorkObjectBase : MonoBehaviour {
     public void JoinWorkForce(Transform Minion)
     {
         MinionsOwned.Add(Minion);
-        Minion.transform.GetComponent<Rigidbody>().isKinematic = false;
-        Minion.SetParent(MinionPositions[MinionsOwned.IndexOf(Minion)]);
+        Minion.GetComponent<MinionController>().clockInToWork(MinionPositions[MinionsOwned.IndexOf(Minion)]);
+       
         Minion.localPosition = new Vector3();
     }
 
     public bool working;
     void Update()
     {
+
         if (MinionsOwned.Count >= MinionTarget)
         {
             Debug.Log("Shit is fuckijn working");

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 
 
@@ -30,6 +30,8 @@ public class MinionController : MonoBehaviour {
     {
         MinionUpdate();
     }
+
+    Transform WorkLocal;
     public void MinionUpdate()
     {
         isMoving = (_agent.remainingDistance <= _agent.stoppingDistance);
@@ -55,7 +57,14 @@ public class MinionController : MonoBehaviour {
                     CurrentTarget.GetComponent<WorkObjectBase>().JoinWorkForce(transform);
                 }
                 break;
-                
+            case MinionState.Working:
+                if (transform.parent != WorkLocal)
+                {
+                    transform.SetParent(WorkLocal);
+                }
+                transform.localRotation = Quaternion.identity;
+                transform.localPosition = new Vector3();
+                break;
         }
     }
 
@@ -78,7 +87,14 @@ public class MinionController : MonoBehaviour {
         _agent.enabled = true;
         currentState = MinionState.FollowPlayer;
         CurrentTarget.GetComponent<WorkObjectBase>().RemoveFromWork(transform);
+    }
 
+    public void clockInToWork(Transform workpos)
+    {
+        _agent.enabled = false;
+        WorkLocal = workpos;
+        transform.SetParent(workpos);
+        currentState = MinionState.Working;
     }
 
     public void StopFollowingPlayer()
@@ -88,6 +104,11 @@ public class MinionController : MonoBehaviour {
     }
     public void TryFollowPlayer()
     {
+        if (currentState == MinionState.Working)
+        {
+            CurrentTarget.GetComponent<WorkObjectBase>().RemoveFromWork(transform);
+            Debug.Log(transform.name + " has gotten off of work after a hard day of being really dumb and bumping into sally from finances");
+        }
         GameMain.instance.TryAddMinion(this.transform);
     }
     public void StartFollowPlayer()
