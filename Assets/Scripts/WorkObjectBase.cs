@@ -35,7 +35,7 @@ public class WorkObjectBase : MonoBehaviour {
     }
 
 
-    public List<Transform> MinionsOwned;
+    public List<Transform> MinionsOwned = new List<Transform>();
     
 
     public void CollideWith(Transform minions){

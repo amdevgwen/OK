@@ -21,11 +21,18 @@ public class MinionController : MonoBehaviour {
 
     public float snapdistance;
   //  public bool isMoving;
+
+    public bool replace;
     void Start()
     {
         _agent = transform.GetComponent<NavMeshAgent>();
-        GameMain.instance.AllMinions.Add(this);
-        transform.tag = "Minion";
+        if (!replace)
+        {
+
+
+            GameMain.instance.AllMinions.Add(this);
+        }
+           transform.tag = "Minion";
     }
     void Update()
     {

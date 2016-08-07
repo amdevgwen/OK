@@ -17,7 +17,9 @@ public class GameMain : MonoBehaviour {
     {
         _instance = this;
     }
-
+    public Transform Spawner;
+    
+    
     void Update()
     {
         PlayerController.instance.ControllerUpdate();
@@ -25,16 +27,34 @@ public class GameMain : MonoBehaviour {
         {
             if (AllMinions[i] != null)
             {
-
                 AllMinions[i].MinionUpdate();
             }
             else
             {
-                Debug.LogWarning("Something Messed Up");
+                if (!fillids.Contains(i))
+                {
+                    FillThis(i);
+                }
             }
         }
 
     }
+    List<int> fillids = new List<int>();
+
+    void FillThis(int ID)
+    {
+        fillids.Add(ID);
+        StartCoroutine(Spawner.GetComponent<Reproducer>().createReplace(ID));
+    }
+   public void FinishID(int id, MinionController replacement)
+    {
+        fillids.Remove(id);
+        if (AllMinions[id] == null)
+        {
+            AllMinions[id] = replacement;
+        }
+    }
+    
 
     public void TryAddMinion(Transform Minion)
     {
