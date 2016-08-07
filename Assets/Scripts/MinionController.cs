@@ -93,7 +93,7 @@ public class MinionController : MonoBehaviour {
     }
     public void finishWork()
     {
-        transform.SetParent(null);
+        transform.SetParent(null, true);
         _agent.enabled = true;
         currentState = MinionState.Wait;
         CurrentTarget = null;

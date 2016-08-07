@@ -114,7 +114,7 @@ public class WorkObjectBase : MonoBehaviour {
                 {
                     RemoveFromWork(k);
                     k.GetComponent<MinionController>().finishWork();
-                    k.transform.SetParent(null);
+                    k.transform.SetParent(null, true);
                 }
                 Target.SendMessage("FinishJob", this.transform);
                 Debug.Log("This Did it");
