@@ -19,7 +19,7 @@ public class MinionController : MonoBehaviour {
     NavMeshAgent _agent;
 
     public float snapdistance;
-
+    public bool isMoving;
     void Start()
     {
         _agent = transform.GetComponent<NavMeshAgent>();
@@ -32,6 +32,8 @@ public class MinionController : MonoBehaviour {
     }
     public void MinionUpdate()
     {
+        isMoving = (_agent.remainingDistance <= _agent.stoppingDistance);
+        
         _agent.enabled = (MinionState.Working != currentState);
         switch (currentState)
         {

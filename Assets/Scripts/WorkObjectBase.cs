@@ -52,6 +52,7 @@ public class WorkObjectBase : MonoBehaviour {
     public void JoinWorkForce(Transform Minion)
     {
         MinionsOwned.Add(Minion);
+        Minion.transform.GetComponent<Rigidbody>().isKinematic = false;
         Minion.SetParent(MinionPositions[MinionsOwned.IndexOf(Minion)]);
         Minion.localPosition = new Vector3();
     }
@@ -91,6 +92,7 @@ public class WorkObjectBase : MonoBehaviour {
 
     void CarryTo(float PercentOver)//max double the time
     {
+
         _agent.enabled = true;
         _agent.SetDestination(Target.position);
     }

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 
     //checks if button is down
     [SerializeField] bool interactDown, callDown, dismissDown;
-
+    public Transform PlayerModel;
 
     //calls on first frame
     [SerializeField]
@@ -79,14 +79,29 @@ public class PlayerController : MonoBehaviour {
         junk = Quaternion.Euler(0, rotationsjunk.eulerAngles.y, 0) * junk;
 
         Vector2 movements = new Vector2(junk.x, junk.z);
+        PlayerMovement.PlayerInstance.transform.FindChild("Dongle");
         
+
+        
+    
         
         
 
         
         if (PlayerMovement.PlayerInstance.playerCanMove && ((Mathf.Abs(movements.x) >= MovementDeadzone)||(Mathf.Abs(movements.y) >= MovementDeadzone) ))
         {
+            PlayerModel.GetComponent<KnightAnim>().isMoving = true;
+            
+            Vector3 temppos = PlayerMovement.PlayerInstance.transform.FindChild("Dongle").position;
+            temppos.y = PlayerModel.position.y;
+            Vector3 relativePos = temppos - PlayerModel.position;
+            Quaternion rotation = Quaternion.LookRotation(relativePos);
+            PlayerModel.rotation = rotation;
             PlayerMovement.PlayerInstance.MoveCharacter(movements * PlayerSpeed);
+        }
+        else
+        {
+            PlayerModel.GetComponent<KnightAnim>().isMoving = false;
         }
     }
 }
