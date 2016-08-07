@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class pippoint : MonoBehaviour {
     public Vector3 min;
@@ -47,8 +48,12 @@ public class pippoint : MonoBehaviour {
             Vector3 pos = RandomCircle(Vector3.zero, radius, i * (360 / chillen.Length));
             Ray m = new Ray(new Vector3(k.position.x, k.position.y + 40, k.position.z), Vector3.down);
             RaycastHit hit;
-            float y = 0;
-            if (Physics.Raycast(m, out hit, Mathf.Infinity, maskingJunk))
+            float y = transform.position.y;
+
+            if (SceneManager.GetActiveScene().name == "StartScreen")
+            {
+
+            }else if (Physics.Raycast(m, out hit, Mathf.Infinity, maskingJunk))
             {
                 y = hit.point.y + localhover;
             }
@@ -68,4 +73,8 @@ public class pippoint : MonoBehaviour {
         pos.z = center.z + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
         return pos;
     }
+
+
+    
+
 }

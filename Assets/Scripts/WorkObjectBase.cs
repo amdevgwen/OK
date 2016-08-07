@@ -96,5 +96,7 @@ public class WorkObjectBase : MonoBehaviour {
 
         _agent.enabled = true;
         _agent.SetDestination(Target.position);
-    }
+    }   
+
+
 }
