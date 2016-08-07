@@ -8,7 +8,6 @@ public class BullshitEndGame : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-
         if (other.tag == "Player")
         {
             SceneManager.LoadScene(2);
