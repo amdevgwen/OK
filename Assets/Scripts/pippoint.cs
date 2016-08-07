@@ -35,6 +35,8 @@ public class pippoint : MonoBehaviour {
 
 
     }
+    public LayerMask maskingJunk;
+    public float localhover = 0.88f;
 
     void setpips()
     {
@@ -46,9 +48,9 @@ public class pippoint : MonoBehaviour {
             Ray m = new Ray(new Vector3(k.position.x, k.position.y + 40, k.position.z), Vector3.down);
             RaycastHit hit;
             float y = 0;
-            if (Physics.Raycast(m, out hit, Mathf.Infinity, transform.parent.GetComponent<PlayerDongle>().maskingjunk))
+            if (Physics.Raycast(m, out hit, Mathf.Infinity, maskingJunk))
             {
-                y = hit.point.y + transform.parent.GetComponent<PlayerDongle>().localhover;
+                y = hit.point.y + localhover;
             }
 
             k.localPosition = pos;

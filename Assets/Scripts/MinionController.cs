@@ -8,7 +8,8 @@ public class MinionController : MonoBehaviour {
         Working,
         GoingToWork,
         FollowPlayer,
-        Wait
+        Wait,
+        GoToPoint
     }
     public MinionState currentState;
 
@@ -44,8 +45,7 @@ public class MinionController : MonoBehaviour {
                 _agent.SetDestination(CurrentTarget.position);
                 _agent.stoppingDistance = stoppingdist;
                 break;
-            case MinionState.Wait:
-                
+            case MinionState.Wait:                
                 _agent.SetDestination(transform.position);
                 break;
             case MinionState.GoingToWork:
@@ -55,6 +55,14 @@ public class MinionController : MonoBehaviour {
                     _agent.enabled = false;
                     currentState = MinionState.Working;
                     CurrentTarget.GetComponent<WorkObjectBase>().JoinWorkForce(transform);
+                }
+                break;
+            case MinionState.GoToPoint:
+                               
+                if(Vector3.Distance(_agent.destination, transform.position) <= snapdistance){
+                    
+                    currentState = MinionState.Wait;
+                    
                 }
                 break;
             case MinionState.Working:
@@ -114,5 +122,12 @@ public class MinionController : MonoBehaviour {
     public void StartFollowPlayer()
     {
         currentState = MinionState.FollowPlayer;
+    }
+
+    public void SendToTarget(Vector3 destination)
+    {
+        _agent.SetDestination(destination);
+        _agent.stoppingDistance = stoppingdist;
+        currentState = MinionState.GoToPoint;
     }
 }

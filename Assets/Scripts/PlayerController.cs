@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
     public float MovementDeadzone; //deadzone so that the player doesn't move until the input hits this threshhold, this allows players to move the dongle.
@@ -23,19 +24,19 @@ public class PlayerController : MonoBehaviour {
 
 
     //checks if button is down
-    [SerializeField] bool interactDown, callDown, dismissDown;
+    [SerializeField] bool interactDown, callDown, dismissDown, sendDown;
     public Transform PlayerModel;
 
     //calls on first frame
     [SerializeField]
-    bool interactTrigger, callTrigger, dismissTrigger;
+    bool interactTrigger, callTrigger, dismissTrigger, sendTrigger;
 
     public void ControllerUpdate()
     {
         GetInputs();
         DongleStuff();
+        TargetStuff();
         MovementStuff();
-
     }
 
     public Quaternion rotationsjunk;
@@ -71,6 +72,56 @@ public class PlayerController : MonoBehaviour {
             
         }
         temp.GetComponent<PlayerDongle>().MoveDongle(movements * DongleSpeed);
+    }
+
+    public Transform targetReticle;
+
+    bool lastframe;
+
+    List<MinionController> heldDown;
+    void TargetStuff()
+    {
+
+        if (Input.GetButton("SendButton"))
+        {
+            lastframe = true;
+            targetReticle.transform.SetParent(PlayerMovement.PlayerInstance.transform.FindChild("Dongle"));
+            targetReticle.transform.localPosition = Vector3.zero;
+            targetReticle.gameObject.SetActive(true);
+            if (GameMain.instance.CurrentMinions.Count != 0)
+            {
+                heldDown = GameMain.instance.CurrentMinions;
+                foreach (MinionController k in heldDown.ToArray())
+                {
+                    k.SendToTarget(targetReticle.position);
+                } 
+            }
+        }
+        else if(lastframe)
+        {
+            lastframe = false;
+            if (heldDown.Count != 0)
+            {
+                foreach (MinionController k in heldDown.ToArray())
+                {
+                    GameMain.instance.RemoveMinion(k.transform);
+                }
+                heldDown = new List<MinionController>();
+            }
+            StartCoroutine(waitTarget());
+        }
+    }
+    
+    IEnumerator waitTarget()
+    {
+        targetReticle.SetParent(transform.parent);
+        yield return new WaitForSeconds(1.5f);
+        if (targetReticle.parent == transform.parent)
+        {
+            targetReticle.gameObject.SetActive(false);
+            targetReticle.SetParent(PlayerMovement.PlayerInstance.transform.FindChild("Dongle"));
+            targetReticle.transform.localPosition = Vector3.zero;
+        }
     }
 
     void MovementStuff()
