@@ -21,9 +21,17 @@ public class GameMain : MonoBehaviour {
     void Update()
     {
         PlayerController.instance.ControllerUpdate();
-        for (int i = 0; i < AllMinions.Count; i++)
+        for (int i = 0; i < AllMinions.ToArray().Length; i++)
         {
-            AllMinions[i].MinionUpdate();
+            if (AllMinions[i] != null)
+            {
+
+                AllMinions[i].MinionUpdate();
+            }
+            else
+            {
+                Debug.LogWarning("Something Messed Up");
+            }
         }
 
     }
@@ -51,8 +59,26 @@ public class GameMain : MonoBehaviour {
         else
         {
             Debug.Log("Tried to remove a minion that they player didn't have");
+            
         }
 
     }
 
+
+    public void TryCreateMinion(Transform Minion)
+    {
+        if (!AllMinions.Contains(Minion.GetComponent<MinionController>()))
+        {
+            AllMinions.Add(Minion.GetComponent<MinionController>());
+        }
+        List<MinionController> k = AllMinions;
+        for (int i = 0; i < AllMinions.Count; i++)
+        {
+            while (k[i] == null)
+            {
+                k.Remove(k[i]);
+            }
+        }
+        AllMinions = k;
+    }
 }

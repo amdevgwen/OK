@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class WorkObjectBase : MonoBehaviour {
 
     public enum WorkType
@@ -16,6 +17,7 @@ public class WorkObjectBase : MonoBehaviour {
     public Transform[] MinionPositions;
     public int MinionTarget;
 
+    public int extraInfo;
 
     public Transform Target;
     public float timetoComplete;
@@ -57,10 +59,27 @@ public class WorkObjectBase : MonoBehaviour {
         Minion.localPosition = new Vector3();
     }
 
+    public float playerDist;
+
     public bool working;
+
+
+
+    bool onetime;
     void Update()
     {
+        TextMesh m = transform.FindChild("New Text").GetComponent<TextMesh>();
+        if((Vector3.Distance(PlayerMovement.PlayerInstance.transform.position, transform.position) < playerDist) || MinionsOwned.Count  >=1){
 
+            m.transform.gameObject.SetActive(true);
+
+            m.text = MinionsOwned.Count.ToString() + "/" + MinionTarget.ToString();
+
+        }
+        else
+        {
+            m.transform.gameObject.SetActive(false);
+        }
         if (MinionsOwned.Count >= MinionTarget)
         {
             Debug.Log("Shit is fuckijn working");
@@ -78,6 +97,30 @@ public class WorkObjectBase : MonoBehaviour {
         {
             working = false;
             CeaseWork();
+        }
+        if (working &&(Vector3.Distance(_agent.destination, transform.position) <= playerDist))
+        {
+            if (onetime)
+            {
+
+            }
+            else
+            {
+                onetime = true;
+                //stop working
+                _agent.enabled = false;
+                transform.FindChild("Capsule").gameObject.SetActive(false);
+                foreach (Transform k in MinionsOwned.ToArray())
+                {
+                    RemoveFromWork(k);
+                    k.GetComponent<MinionController>().finishWork();
+                    k.transform.SetParent(null);
+                }
+                Target.SendMessage("FinishJob", this.transform);
+                Debug.Log("This Did it");
+                working = false;
+                Destroy(this);
+            }
         }
     }
 

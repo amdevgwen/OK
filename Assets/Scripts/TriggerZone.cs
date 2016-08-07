@@ -8,7 +8,6 @@ public class TriggerZone : MonoBehaviour {
     {
         Player,
         Object
-
     }
 
     public TriggerType trigType;
