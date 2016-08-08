@@ -11,8 +11,15 @@ public class Reproducer : MonoBehaviour {
     public GameObject RedGuy;
     public GameObject GreenGuy;
     public GameObject BlueGuy;
+    public AudioClip spawnSound;
 
     public Vector3 standardScale;
+
+    private AudioSource source;
+    public void Start()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     public void FinishJob(Transform target)
     {
@@ -36,9 +43,10 @@ public class Reproducer : MonoBehaviour {
 
     public IEnumerator growGuy(int number)
     {
-        
             for (int i = 0; i < number; i++)
             {
+                source.PlayOneShot(spawnSound);
+
                 float moveto = Time.time + TimeToGrow;
                 GameObject h = GreenGuy;
                 h.GetComponent<MinionController>().replace = false;

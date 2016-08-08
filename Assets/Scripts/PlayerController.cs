@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour {
     List<MinionController> heldDown;
     void TargetStuff()
     {
+        heldDown = GameMain.instance.CurrentMinions;
 
         if (Input.GetButton("SendButton"))
         {
@@ -90,7 +91,6 @@ public class PlayerController : MonoBehaviour {
             targetReticle.gameObject.SetActive(true);
             if (GameMain.instance.CurrentMinions.Count != 0)
             {
-                heldDown = GameMain.instance.CurrentMinions;
                 foreach (MinionController k in heldDown.ToArray())
                 {
                     k.SendToTarget(targetReticle.position);
@@ -116,12 +116,14 @@ public class PlayerController : MonoBehaviour {
     {
         targetReticle.SetParent(transform.parent);
         yield return new WaitForSeconds(1.5f);
-        if (targetReticle.parent == transform.parent)
-        {
+
+        // I don't know why this would not be true, but it's preventing the dongle from reseting.
+        //if (targetReticle.parent == transform.parent)
+        //{
             targetReticle.gameObject.SetActive(false);
             targetReticle.SetParent(PlayerMovement.PlayerInstance.transform.FindChild("Dongle"));
             targetReticle.transform.localPosition = Vector3.zero;
-        }
+        //}
     }
 
     void MovementStuff()

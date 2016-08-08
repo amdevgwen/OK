@@ -7,6 +7,7 @@ public class Credits : MonoBehaviour {
     public Sprite credits;
     public Sprite credits1;
     public Sprite credits2;
+    public Sprite creditsSounds;
     public Sprite credits3;
     public Sprite credits4;
     public Sprite credits5;
@@ -20,7 +21,7 @@ public class Credits : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        allCredits = new Sprite[] { credits, credits1, credits2, credits3, credits4, credits5, credits6 };
+        allCredits = new Sprite[] { credits, credits1, credits2, creditsSounds, credits3, credits4, credits5, credits6 };
         i = 1;
 
         GetComponent<Image>().sprite = allCredits[0];
@@ -38,13 +39,13 @@ public class Credits : MonoBehaviour {
 
         totalTime += Time.deltaTime;
 
-        if (i < 4 && totalTime > 5.0) 
+        if (i < 5 && totalTime > 5.0) 
         {
             GetComponent<Image>().sprite = allCredits[i];
             i += 1;
             totalTime = 0.0;
         }
-        else if (i < 7 && totalTime > i * 5.0)
+        else if (i < 8 && totalTime > i * 5.0)
         {
             GetComponent<Image>().sprite = allCredits[i];
             i += 1;

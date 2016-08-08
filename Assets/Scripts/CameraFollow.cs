@@ -30,11 +30,10 @@ public class CameraFollow : MonoBehaviour {
 
         }
 
-        /*
         if (Input.GetButton("CameraLeft") != Input.GetButton("CameraRight"))
         {
             int posneg = 1;
-            if (Input.GetButton("CameraLeft"))
+            if (Input.GetButton("CameraRight"))
             {
                 posneg = -1;
             }
@@ -42,12 +41,6 @@ public class CameraFollow : MonoBehaviour {
              rotator.Rotate(Vector3.up * posneg * (rotateSpeed * Time.deltaTime));
 
         }
-        else
-        {
-            
-
-        }
-         */
 
         if (!moving && Vector3.Distance(PlayerMovement.PlayerInstance.transform.position, transform.position) > start)
         {

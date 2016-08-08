@@ -84,7 +84,7 @@ public class PlayerDongle : MonoBehaviour {
             WhistleChild = transform.FindChild("CallPips");
             WhistleChild.gameObject.SetActive(true);
             WhistleChild.GetComponent<DonglePips>().DoIt(currentRadius);
-            CallMinions(currentRadius);
+            CallMinions(currentRadius + (float)1.63);  // 1.63 = radius of the slimes.  I don't feel like figuring out how to get that value dynamically.
             yield return null;
         }
         WhistleChild.gameObject.SetActive(false);

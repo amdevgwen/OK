@@ -9,8 +9,19 @@ public class BlowShitUp : MonoBehaviour {
     public float boomSize = 30f, boomRange = 10f;
 
     public Transform wall;
+
+    public AudioClip explosion;
+    private AudioSource source;
+
+    public void Start()
+    {
+        source = GetComponent<AudioSource>();
+    }
+
     public void Boom()
     {
+        source.PlayOneShot(explosion);
+
         foreach (var t in rocks)
         {
             var coll = t.GetComponent<Collider>();
